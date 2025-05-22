@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AIO Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2D1B69 0%, #1E1145 100%);
+            color: white;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-title {
+            color: #9C27B0;
+            font-size: 2rem;
+        }
+
+        .logout-btn {
+            background: #9C27B0;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .admin-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .admin-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .section-title {
+            color: #9C27B0;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .submit-btn {
+            background: #673AB7;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #9C27B0;
+        }
+
+        .games-list, .feedback-list {
+            margin-top: 2rem;
+        }
+
+        .game-card, .feedback-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+        }
+
+        .game-card img {
+            max-width: 200px;
+            height: auto;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .action-btn {
+            background: #673AB7;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }
+
+        .delete-btn {
+            background: #9C27B0;
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .order-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .order-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        .status-pending { background: #ffa500; }
+        .status-completed { background: #4CAF50; }
+        .status-cancelled { background: #9C27B0; }
+
+        .order-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .orders-list {
+            margin-top: 1rem;
+        }
+
+        .order-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .order-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        .status-pending { background: #ffa500; }
+        .status-completed { background: #4CAF50; }
+        .status-cancelled { background: #9C27B0; }
+
+        .order-items {
+            margin: 1rem 0;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <h1 class="admin-title">Admin Dashboard</h1>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+    </header>
+
+    <div class="admin-container">
+        <!-- Add Game Section -->
+        <section class="admin-section">
+            <h2 class="section-title">Add New Game</h2>
+            <form id="addGameForm">
+                <div class="form-group">
+                    <label>Game Title</label>
+                    <input type="text" id="gameTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" id="gamePrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="url" id="gameImage" required>
+                </div>
+                <button type="submit" class="submit-btn">Add Game</button>
+            </form>
+            
+            <div id="gamesList" class="games-list">
+                <!-- Games will be listed here -->
+            </div>
+        </section>
+
+        <!-- Orders Management -->
+        <section class="admin-section">
+            <h2 class="section-title">Order Management</h2>
+            <div id="ordersList" class="orders-list">
+                <!-- Orders will be listed here -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Check admin access
+        window.addEventListener('load', function() {
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            if (!loggedInUser || !loggedInUser.isAdmin) {
+                alert('Access denied. Admin privileges required.');
+                window.location.href = 'LOLOG.HTML';
+            }
+        });
+
+        // Add this at the start of your script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is admin
+            const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+            if (!user.isAdmin) {
+                alert('Access denied. Admin privileges required.');
+                window.location.href = 'LOLOG.HTML';
+                return;
+            }
+            
+            // Load games and feedback if admin
+            loadGames();
+            loadOrders();
+        });
+
+        // Add Game Form Handler with debug logs
+        document.getElementById('addGameForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const imageUrl = document.getElementById('gameImage').value;
+            
+            // Test if image URL is valid
+            const img = new Image();
+            img.onerror = function() {
+                alert('Please enter a valid image URL');
+                return;
+            };
+            img.onload = function() {
+                // If image loads successfully, proceed with form submission
+                const game = {
+                    title: document.getElementById('gameTitle').value,
+                    price: parseFloat(document.getElementById('gamePrice').value).toFixed(2),
+                    image: imageUrl
+                };
+                
+                let games = [];
+                try {
+                    games = JSON.parse(localStorage.getItem('storeGames')) || [];
+                } catch (error) {
+                    console.error('Error loading games:', error);
+                    games = [];
+                }
+                
+                games.push(game);
+                localStorage.setItem('storeGames', JSON.stringify(games));
+                
+                e.target.reset();
+                loadGames();
+                alert('Game added successfully!');
+            };
+            img.src = imageUrl;
+        });
+
+        // Load Games Function with debug
+        function loadGames() {
+            const gamesList = document.getElementById('gamesList');
+            let games = [];
+            
+            try {
+                games = JSON.parse(localStorage.getItem('storeGames')) || [];
+                console.log('Loading games:', games); // Debug log
+            } catch (error) {
+                console.error('Error loading games:', error);
+                games = [];
+            }
+            
+            gamesList.innerHTML = '';
+            
+            games.forEach((game, index) => {
+                const gameCard = document.createElement('div');
+                gameCard.className = 'game-card';
+                gameCard.innerHTML = `
+                    <h3>${game.title}</h3>
+                    <p>Price: $${game.price}</p>
+                    <img src="${game.image}" alt="${game.title}" style="max-width: 100px;">
+                    <div>
+                        <button onclick="editGame(${index})" class="action-btn">Edit</button>
+                        <button onclick="deleteGame(${index})" class="action-btn delete-btn">Delete</button>
+                    </div>
+                `;
+                gamesList.appendChild(gameCard);
+            });
+        }
+
+        // Delete Game Function
+        function deleteGame(index) {
+            if (confirm('Are you sure you want to delete this game?')) {
+                let games = JSON.parse(localStorage.getItem('storeGames')) || [];
+                games.splice(index, 1);
+                localStorage.setItem('storeGames', JSON.stringify(games));
+                loadGames();
+            }
+        }
+
+        // Edit Game Function
+        function editGame(index) {
+            let games = JSON.parse(localStorage.getItem('storeGames')) || [];
+            const game = games[index];
+            
+            const newTitle = prompt('Enter new title:', game.title);
+            const newPrice = prompt('Enter new price:', game.price);
+            const newImage = prompt('Enter new image URL:', game.image);
+            
+            if (newTitle && newPrice && newImage) {
+                games[index] = {
+                    title: newTitle,
+                    price: newPrice,
+                    image: newImage
+                };
+                localStorage.setItem('storeGames', JSON.stringify(games));
+                loadGames();
+            }
+        }
+
+        // Logout Function
+        function logout() {
+            // Preserve data
+            const feedbackData = localStorage.getItem('allFeedback');
+            const gamesData = localStorage.getItem('storeGames');
+            
+            // Clear login status
+            localStorage.removeItem('loggedInUser');
+            
+            // Restore data
+            if (feedbackData) localStorage.setItem('allFeedback', feedbackData);
+            if (gamesData) localStorage.setItem('storeGames', gamesData);
+            
+            window.location.href = 'LOLOG.HTML';
+        }
+
+        // Load games when page loads
+        document.addEventListener('DOMContentLoaded', loadGames);
+
+        function loadOrders() {
+            const ordersList = document.getElementById('ordersList');
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            
+            // Filter out dismissed orders
+            const activeOrders = orders.filter(order => !order.dismissed);
+            
+            ordersList.innerHTML = activeOrders.length === 0 ? '<p>No orders yet</p>' : '';
+            
+            activeOrders.forEach((order, index) => {
+                ordersList.innerHTML += `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <h3>Order #${order.id}</h3>
+                            <span class="order-status status-${order.status}">${order.status}</span>
+                        </div>
+                        <p>Customer: ${order.user}</p>
+                        <p>Date: ${new Date(order.date).toLocaleString()}</p>
+                        <p>Total: $${order.total.toFixed(2)}</p>
+                        <div class="order-items">
+                            ${order.items.map(item => `
+                                <div>${item.title} - $${item.price}</div>
+                            `).join('')}
+                        </div>
+                        <div class="order-actions">
+                            <button onclick="updateOrderStatus(${index}, 'completed')" 
+                                    class="action-btn" 
+                                    ${order.status !== 'pending' ? 'disabled' : ''}>
+                                Complete Order
+                            </button>
+                            <button onclick="updateOrderStatus(${index}, 'cancelled')" 
+                                    class="action-btn delete-btn"
+                                    ${order.status !== 'pending' ? 'disabled' : ''}>
+                                Cancel Order
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function updateOrderStatus(index, status) {
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            // Find the actual index in the full orders array
+            const activeOrders = orders.filter(order => !order.dismissed);
+            const targetOrder = activeOrders[index];
+            const realIndex = orders.findIndex(order => order.id === targetOrder.id);
+            
+            if (realIndex !== -1) {
+                orders[realIndex].status = status;
+                localStorage.setItem('orders', JSON.stringify(orders));
+                loadOrders();
+            }
+        }
+
+        // Add this to your existing DOMContentLoaded event
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGames();
+            loadOrders();
+        });
+    </script>
+</body>
+</html> 

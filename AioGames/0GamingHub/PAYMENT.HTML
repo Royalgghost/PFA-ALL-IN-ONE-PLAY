@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - AIO Games</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2D1B69 0%, #1E1145 100%);
+            color: white;
+        }
+
+        .payment-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .payment-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .card-details {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .submit-btn {
+            background: #673AB7;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .order-summary {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h2>Payment Details</h2>
+        
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <div id="orderItems"></div>
+            <div class="total">Total: $<span id="orderTotal">0.00</span></div>
+        </div>
+
+        <form class="payment-form" id="paymentForm">
+            <div class="form-group">
+                <label>Card Holder Name</label>
+                <input type="text" required>
+            </div>
+
+            <div class="form-group">
+                <label>Card Number</label>
+                <input type="text" maxlength="16" required>
+            </div>
+
+            <div class="card-details">
+                <div class="form-group">
+                    <label>Expiry Date</label>
+                    <input type="text" placeholder="MM/YY" maxlength="5" required>
+                </div>
+                <div class="form-group">
+                    <label>CVV</label>
+                    <input type="text" maxlength="3" required>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Complete Purchase</button>
+        </form>
+    </div>
+
+    <script>
+        function loadOrderSummary() {
+            const orderItems = document.getElementById('orderItems');
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let total = 0;
+
+            orderItems.innerHTML = '';
+            cart.forEach(item => {
+                total += parseFloat(item.price);
+                orderItems.innerHTML += `
+                    <div class="order-item">
+                        <span>${item.title}</span>
+                        <span>$${item.price}</span>
+                    </div>
+                `;
+            });
+
+            document.getElementById('orderTotal').textContent = total.toFixed(2);
+        }
+
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const user = JSON.parse(localStorage.getItem('loggedInUser'));
+
+            const order = {
+                id: Date.now(),
+                items: cart,
+                total: cart.reduce((sum, item) => sum + parseFloat(item.price), 0),
+                date: new Date().toISOString(),
+                status: 'pending',
+                user: user.username
+            };
+
+            // Save order
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            // Clear cart
+            localStorage.setItem('cart', '[]');
+
+            // Redirect to success page or back to store
+            alert('Order placed successfully!');
+            window.location.href = 'GAMINGHUB2.HTML';
+        });
+
+        // Load order summary when page loads
+        document.addEventListener('DOMContentLoaded', loadOrderSummary);
+    </script>
+</body>
+</html> 

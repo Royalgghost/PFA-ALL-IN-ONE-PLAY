@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - AIO Games</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2D1B69 0%, #1E1145 100%);
+            color: white;
+            padding: 2rem;
+        }
+
+        .orders-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .order-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .order-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        .status-pending { background: #ffa500; }
+        .status-completed { background: #4CAF50; }
+        .status-cancelled { background: #9C27B0; }
+
+        .back-button {
+            background: #673AB7;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .dismiss-btn {
+            background: #673AB7;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .dismiss-btn:hover {
+            background: #9C27B0;
+        }
+    </style>
+</head>
+<body>
+    <div class="orders-container">
+        <a href="GAMINGHUB2.HTML" class="back-button">Back to Store</a>
+        <h1>My Orders</h1>
+        <div id="userOrders"></div>
+    </div>
+
+    <script>
+        function loadUserOrders() {
+            const userOrders = document.getElementById('userOrders');
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            
+            const userOrdersList = orders.filter(order => 
+                order.user === loggedInUser.username && 
+                !order.dismissed // Don't show dismissed orders
+            );
+            
+            if (userOrdersList.length === 0) {
+                userOrders.innerHTML = '<p>No orders found</p>';
+                return;
+            }
+            
+            userOrdersList.forEach(order => {
+                userOrders.innerHTML += `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <h3>Order #${order.id}</h3>
+                            <span class="order-status status-${order.status}">${order.status}</span>
+                        </div>
+                        <p>Date: ${new Date(order.date).toLocaleString()}</p>
+                        <p>Total: $${order.total.toFixed(2)}</p>
+                        <div class="order-items">
+                            ${order.items.map(item => `
+                                <div>${item.title} - $${item.price}</div>
+                            `).join('')}
+                        </div>
+                        ${(order.status === 'completed' || order.status === 'cancelled') ? 
+                            `<button onclick="dismissOrder('${order.id}')" class="dismiss-btn">
+                                Dismiss Order
+                            </button>` 
+                            : ''
+                        }
+                    </div>
+                `;
+            });
+        }
+
+        function dismissOrder(orderId) {
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            
+            // Remove the order from the display but keep it in storage with a 'dismissed' flag
+            orders = orders.map(order => {
+                if (order.id.toString() === orderId && order.user === loggedInUser.username) {
+                    return { ...order, dismissed: true };
+                }
+                return order;
+            });
+            
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            // Refresh the orders display
+            const userOrders = document.getElementById('userOrders');
+            userOrders.innerHTML = '';
+            loadUserOrders();
+        }
+
+        // Check if user is logged in
+        window.addEventListener('load', function() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                window.location.href = 'LOLOG.HTML';
+            } else {
+                loadUserOrders();
+            }
+        });
+    </script>
+</body>
+</html> 

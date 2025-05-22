@@ -1,0 +1,419 @@
+/* AIO Bot Chat Interface Styles */
+.chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    max-height: 500px;
+    background-color: var(--bg-secondary, #fff);
+    border-radius: 12px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-family: 'Inter', sans-serif;
+}
+
+.chatbot-container.minimized {
+    height: 60px;
+    overflow: hidden;
+}
+
+.chatbot-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: linear-gradient(135deg, #6520d7 0%, #9345f3 100%);
+    color: white;
+    cursor: pointer;
+}
+
+.chatbot-header-left {
+    display: flex;
+    align-items: center;
+}
+
+.chatbot-header-left img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.chatbot-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.chatbot-header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.chatbot-header-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.chatbot-header-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.chatbot-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 350px;
+}
+
+.message {
+    display: flex;
+    margin-bottom: 10px;
+    animation: fadeIn 0.3s ease;
+}
+
+.message.user {
+    justify-content: flex-end;
+}
+
+.message-content {
+    max-width: 80%;
+    padding: 12px 15px;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.user .message-content {
+    background-color: #6520d7;
+    color: white;
+    border-bottom-right-radius: 5px;
+}
+
+.bot .message-content {
+    background-color: #f0f0f0;
+    color: #333;
+    border-bottom-left-radius: 5px;
+}
+
+.chatbot-options {
+    padding: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: var(--bg-secondary, #fff);
+}
+
+.chatbot-options p {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    text-align: center;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.option-btn {
+    background: linear-gradient(135deg, #6520d7 0%, #9345f3 100%);
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(101, 32, 215, 0.2);
+}
+
+.option-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(101, 32, 215, 0.3);
+}
+
+.option-btn:active {
+    transform: translateY(0);
+}
+
+.follow-up-options {
+    margin-top: 12px;
+    display: none;
+}
+
+.follow-up-options.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.follow-up-btn {
+    background: linear-gradient(135deg, #8340f5 0%, #b274f6 100%);
+}
+
+.back-btn {
+    background: #666;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.back-btn:hover {
+    background: #555;
+}
+
+.chatbot-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #6520d7 0%, #9345f3 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    z-index: 9998;
+    transition: all 0.3s ease;
+}
+
+.chatbot-toggle i {
+    color: white;
+    font-size: 24px;
+}
+
+.chatbot-toggle:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(101, 32, 215, 0.35);
+}
+
+.chatbot-toggle.active {
+    transform: scale(0);
+    opacity: 0;
+}
+
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.typing-indicator.active {
+    opacity: 1;
+}
+
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #888;
+    display: inline-block;
+    margin-right: 5px;
+    animation: typing 1s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+    margin-right: 0;
+}
+
+@keyframes typing {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+    .chatbot-container {
+        width: calc(100% - 40px);
+        max-width: 350px;
+        bottom: 80px;
+    }
+
+    .chatbot-toggle {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* Example questions section */
+.example-questions {
+    padding: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: rgba(101, 32, 215, 0.03);
+}
+
+.example-questions p {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+    text-align: center;
+}
+
+.question-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.example-question-btn {
+    background-color: #f0f0f0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.example-question-btn:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.more-questions-btn {
+    background: linear-gradient(135deg, #6520d7 0%, #9345f3 100%);
+    color: white;
+    font-weight: 500;
+    border: none;
+    padding: 8px 16px;
+    margin-top: 8px;
+    width: 100%;
+    max-width: 200px;
+    box-shadow: 0 4px 12px rgba(101, 32, 215, 0.2);
+}
+
+.more-questions-btn:hover {
+    background: linear-gradient(135deg, #7730e8 0%, #a45ff4 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(101, 32, 215, 0.3);
+}
+
+/* Dark theme support */
+.dark-theme .chatbot-container {
+    background-color: #2a2a2a;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .bot .message-content {
+    background-color: #3a3a3a;
+    color: #f0f0f0;
+}
+
+.dark-theme #chat-input {
+    background-color: #333;
+    color: #f0f0f0;
+}
+
+.dark-theme #chat-input:focus {
+    background-color: #444;
+}
+
+.dark-theme .example-questions {
+    background-color: rgba(101, 32, 215, 0.1);
+    border-top-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme .example-questions p {
+    color: #aaa;
+}
+
+.dark-theme .example-question-btn {
+    background-color: #3a3a3a;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #f0f0f0;
+}
+
+.dark-theme .example-question-btn:hover {
+    background-color: #444;
+}
+
+.dark-theme .more-questions-btn {
+    background: linear-gradient(135deg, #7730e8 0%, #a45ff4 100%);
+    color: white;
+    border: none;
+}
+
+.dark-theme .more-questions-btn:hover {
+    background: linear-gradient(135deg, #8a40f5 0%, #b274f6 100%);
+    box-shadow: 0 6px 15px rgba(138, 64, 245, 0.3);
+}
+
+/* Dark theme for options interface */
+.dark-theme .chatbot-options {
+    background-color: #2a2a2a;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .chatbot-options p {
+    color: #aaa;
+}
+
+.dark-theme .option-btn {
+    background: linear-gradient(135deg, #6520d7 0%, #9345f3 100%);
+}
+
+.dark-theme .follow-up-btn {
+    background: linear-gradient(135deg, #8340f5 0%, #b274f6 100%);
+}
+
+.dark-theme .back-btn {
+    background: #444;
+}
+
+.dark-theme .back-btn:hover {
+    background: #555;
+}

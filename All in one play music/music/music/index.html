@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIO Music</title>
+    <!-- Added Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.5s ease, color 0.5s ease, background 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+        }
+        
+        body,
+        .header,
+        .logo img,
+        .logo-text,
+        .player-container,
+        .welcome-content,
+        .footer,
+        .progress-bar,
+        .progress-filled,
+        .progress-handle {
+            transition: background 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), background-color 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), color 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), filter 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), box-shadow 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), border-color 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        body {
+            background: linear-gradient(45deg, #1a1a1a, #333);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Dark Mode Only */
+
+        
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        body.light-mode .header {
+            background-color: rgba(80, 80, 80, 0.9);
+            box-shadow: 0 2px 10px rgba(80, 80, 80, 0.3);
+        }
+        
+        .logo-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            vertical-align: middle;
+            transition: filter 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            filter: drop-shadow(0 2px 8px #00e6b8);
+        }
+        
+        body.light-mode .logo img {
+            filter: drop-shadow(0 2px 8px #b14ef5) brightness(1.15) contrast(1.2);
+        }
+        
+        .logo-text {
+            margin-left: 10px;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #00e6b8, #b14ef5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            transition: background 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), color 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+
+        
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: #00e6b8;
+            font-size: 1.8rem;
+        }
+        
+
+        
+        .header span {
+            font-weight: 400;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        
+        .main-nav li {
+            margin-right: 20px;
+        }
+        
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .main-nav a.active {
+            color: #00e6b8;
+        }
+        
+        .main-nav a:hover {
+            color: #b14ef5;
+        }
+        
+        .welcome-section {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .bg-slideshow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .welcome-content {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            max-width: 80%;
+            width: 700px;
+        }
+        
+        body.light-mode .welcome-content {
+            background-color: rgba(80, 80, 80, 0.2);
+            color: #333;
+        }
+        
+        body.light-mode .welcome-content h2 {
+            color: #505050;
+            text-shadow: 0 0 10px rgba(0, 230, 184, 0.2);
+        }
+        
+        .welcome-content h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #00e6b8;
+            text-shadow: 0 0 10px rgba(0, 230, 184, 0.3);
+        }
+        
+        body.light-mode .welcome-content h2 {
+            color: #505050;
+        }
+        
+        .welcome-content p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .welcome-content .search-container {
+            margin-bottom: 0;
+        }
+        
+        .welcome-content .search-input {
+            font-size: 1.3rem;
+            padding: 1.2rem;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 230, 184, 0.3);
+        }
+        
+        .welcome-content .search-input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 25px rgba(0, 230, 184, 0.4);
+            border-color: rgba(0, 230, 184, 0.5);
+        }
+        
+        .welcome-content .api-toggle {
+            margin-top: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        /* Responsive Design Media Queries */
+        
+        @media screen and (max-width: 1024px) {
+            .header {
+                padding: 0.8rem;
+            }
+            .logo {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .logo img {
+                height: 30px;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .main-nav ul {
+                display: none;
+            }
+            .search-container {
+                width: 90%;
+                margin: 1rem auto;
+            }
+            .search-input {
+                width: 100%;
+                font-size: 1rem;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .welcome-content {
+                padding: 2rem 1rem;
+            }
+            .welcome-content h1 {
+                font-size: 2rem;
+            }
+            .song-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .song-item {
+                padding: 1rem;
+            }
+            .player-controls {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            .progress-container {
+                width: 100%;
+                margin: 1rem 0;
+            }
+            .control-buttons {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+            .control-buttons button {
+                width: 100%;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .welcome-content h1 {
+                font-size: 1.5rem;
+            }
+            .song-list {
+                grid-template-columns: 1fr;
+            }
+            .song-item {
+                padding: 0.8rem;
+            }
+            .player-controls {
+                padding: 0.5rem;
+            }
+            .control-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .visualizer {
+                height: 100px;
+            }
+            .footer {
+                padding: 1rem;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+        /* Mobile-specific improvements */
+        
+        @media screen and (max-width: 768px) {
+            .search-container {
+                margin-top: 1rem;
+            }
+            .search-input {
+                padding: 0.8rem;
+            }
+            .song-item img {
+                width: 80px;
+                height: 80px;
+            }
+            .song-info {
+                margin-left: 1rem;
+            }
+            .song-info h3 {
+                font-size: 1rem;
+            }
+            .song-info p {
+                font-size: 0.9rem;
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .search-container {
+            margin-bottom: 2rem;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            outline: none;
+            transition: all 0.3s ease;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+        
+        body.light-mode .search-input {
+            background: rgba(255, 255, 255, 0.3);
+            color: #333;
+            border-color: rgba(80, 80, 80, 0.2);
+        }
+        
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 15px rgba(0, 230, 184, 0.3);
+        }
+        
+        .player-container {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: background 0.5s ease, box-shadow 0.5s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(50, 50, 50, 0.5);
+        }
+        
+        body.light-mode .player-container {
+            background: rgba(80, 80, 80, 0.1);
+        }
+        
+        .now-playing {
+            margin-bottom: 2rem;
+        }
+        
+        .now-playing img {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            object-fit: cover;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .now-playing h2 {
+            color: #00e6b8;
+            margin-bottom: 0.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+        
+        body.light-mode .now-playing h2 {
+            color: #505050;
+        }
+        
+        .now-playing p {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+        }
+        
+        .audio-player {
+            width: 100%;
+            max-width: 500px;
+            margin: 1rem auto;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 30px;
+            background: #00e6b8;
+            color: #1a1a1a;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            box-shadow: 0 3px 10px rgba(0, 230, 184, 0.3);
+        }
+        
+        .btn:hover {
+            background: #b14ef5;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(177, 78, 245, 0.4);
+        }
+        
+        .songs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+        
+        .song-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .song-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+        }
+        
+        .song-card.playing {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+        }
+        
+        .song-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .song-info {
+            padding: 1rem;
+        }
+        
+        .song-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .song-artist {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 300;
+        }
+        
+        .visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 100px;
+            gap: 2px;
+            margin: 1rem 0;
+        }
+        
+        .bar {
+            width: 10px;
+            height: 20px;
+            background: linear-gradient(180deg, #00e6b8, #b14ef5);
+            border-radius: 5px;
+            transition: height 0.1s ease;
+        }
+        
+        .recently-played-section {
+            margin-bottom: 2rem;
+        }
+        
+        .recently-played-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+        
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 2rem 0;
+            position: relative;
+            transition: background-color 0.5s ease;
+        }
+        
+        body.light-mode .footer {
+            background-color: rgba(80, 80, 80, 0.8);
+            color: #fff;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #00e6b8, transparent);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .footer-section {
+            margin-bottom: 2rem;
+            flex: 1;
+            min-width: 250px;
+            padding-right: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #00e6b8;
+            position: relative;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: #00e6b8;
+        }
+        
+        .footer-section p {
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .footer-links a::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: #00e6b8;
+        }
+        
+        .footer-links a:hover {
+            color: #00e6b8;
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: #00e6b8;
+            color: #111;
+            transform: translateY(-5px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 1.5rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 0;
+        }
+        
+        .footer-bottom p {
+            margin: 0;
+        }
+        
+        .footer-bottom a {
+            color: #00e6b8;
+            text-decoration: none;
+        }
+        /* Theme toggle styling */
+        
+        .theme-toggle {
+            margin-left: 1rem;
+            position: relative;
+            width: 50px;
+            height: 25px;
+            border-radius: 25px;
+            background: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5px;
+        }
+        
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 230, 184, 0.1), transparent);
+            opacity: 1;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .theme-toggle .icon-moon {
+            color: #fff;
+            font-size: 12px;
+            margin-left: auto;
+            z-index: 0;
+        }
+        
+        .theme-toggle .icon-sun {
+            color: #fff;
+            font-size: 12px;
+            margin-right: auto;
+            z-index: 0;
+        }
+        
+        .light-mode .theme-toggle {
+            background: #e0e0e0;
+        }
+        
+        .light-mode .theme-toggle::before {
+            left: 27px;
+            background: #505050;
+        }
+        
+        .light-mode .theme-toggle .icon-moon {
+            color: #505050;
+        }
+        
+        .light-mode .theme-toggle .icon-sun {
+            color: #505050;
+        }
+        
+        .theme-btn {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .welcome-content {
+                max-width: 90%;
+            }
+            .welcome-content h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        .audio-init-container {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .video-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .video-slide.active {
+            opacity: 1;
+        }
+        
+        .api-toggle-container {
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .api-toggle {
+            position: relative;
+            display: inline-block;
+            width: 200px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 34px;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(50, 50, 50, 0.5);
+            overflow: hidden;
+        }
+        
+        .api-toggle::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 230, 184, 0.1), transparent);
+            opacity: 1;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .api-toggle.youtube::after {
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.1));
+            opacity: 1;
+        }
+        
+        .api-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 34px;
+            transition: .4s;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 32px;
+            width: 32px;
+            left: 4px;
+            bottom: 4px;
+            background-color: #00e6b8;
+            border-radius: 50%;
+            transition: .4s cubic-bezier(0.68, -0.55, 0.27, 1.55), background-color 0.3s ease;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        input:checked+.slider:before {
+            transform: translateX(160px);
+            background-color: #ff0000;
+        }
+        
+        .api-label {
+            z-index: 1;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .api-toggle .deezer-label {
+            color: rgba(255, 255, 255, 0.9);
+            margin-left: 20px;
+        }
+        
+        .api-toggle .youtube-label {
+            color: rgba(255, 255, 255, 0.4);
+            margin-right: 20px;
+        }
+        
+        input:checked+.slider~.deezer-label {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        input:checked+.slider~.youtube-label {
+            color: #ff0000;
+        }
+        
+        .light-mode .api-toggle {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .light-mode .slider {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .light-mode .api-label {
+            color: #333;
+        }
+        
+        .source-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            z-index: 2;
+        }
+        
+        .source-icon.youtube {
+            background-color: rgba(255, 0, 0, 0.8);
+            color: white;
+        }
+        
+        body.light-mode .search-icon {
+            color: rgba(80, 80, 80, 0.7);
+        }
+        
+        body.light-mode .api-toggle .deezer-label {
+            color: #00a082;
+        }
+        
+        body.light-mode .api-toggle .youtube-label {
+            color: rgba(80, 80, 80, 0.6);
+        }
+        
+        body.light-mode input:checked+.slider~.deezer-label {
+            color: rgba(80, 80, 80, 0.6);
+        }
+        
+        body.light-mode input:checked+.slider~.youtube-label {
+            color: #df0000;
+        }
+        /* Custom Progress Bar - Updated Modern Design */
+        
+        .progress-container {
+            width: 100%;
+            max-width: 550px;
+            margin: 2rem auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .music-visualizer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 2px;
+            height: 60px;
+            margin: 0 auto 15px;
+        }
+        
+        .music-bar {
+            width: 5px;
+            height: 100%;
+            border-radius: 3px;
+            background: linear-gradient(180deg, #00e6b8, #b14ef5);
+            transition: height 0.2s ease, background 0.5s ease;
+            opacity: 0.7;
+        }
+        
+        .youtube-mode .music-bar {
+            background: linear-gradient(180deg, #ff0000, #ff6666);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            overflow: visible;
+            transition: height 0.2s ease;
+        }
+        
+        .progress-bar:hover {
+            height: 6px;
+        }
+        
+        .progress-filled {
+            height: 100%;
+            width: 0;
+            background: #00e6b8;
+            border-radius: inherit;
+            transition: width 0.1s linear, background 0.5s ease;
+            position: relative;
+        }
+        
+        .youtube-mode .progress-filled {
+            background: #ff0000;
+        }
+        
+        .progress-handle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #00e6b8;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            left: 0%;
+            margin-left: -6px;
+            box-shadow: 0 0 5px rgba(0, 230, 184, 0.6);
+            cursor: pointer;
+            z-index: 3;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.5s ease;
+            border: 2px solid white;
+            opacity: 0;
+        }
+        
+        .youtube-mode .progress-handle {
+            background-color: #ff0000;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.6);
+        }
+        
+        .progress-bar:hover .progress-handle,
+        .progress-handle.dragging {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+        
+        .progress-timestamps {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 10px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+        
+        .progress-dots {
+            display: none;
+            /* Hide dots for cleaner design */
+        }
+        /* Light mode adjustments */
+        
+        body.light-mode .progress-bar {
+            background-color: rgba(80, 80, 80, 0.1);
+        }
+        
+        body.light-mode .progress-filled {
+            background: #00a082;
+        }
+        
+        body.light-mode .progress-handle {
+            background-color: #00a082;
+            box-shadow: 0 0 5px rgba(0, 160, 130, 0.5);
+            border: 2px solid white;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+
+        <div class="logo-container" style="text-align: center; width: 100%; position: relative;">
+            <a href="../../../index.html" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); text-decoration: none; display: flex; align-items: center; gap: 8px; background: linear-gradient(45deg, rgba(138, 43, 226, 0.3), rgba(48, 217, 232, 0.3)); padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px); color: white; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+                <i class="fas fa-home"></i> Back to AIO Hub
+            </a>
+            <div class="logo">
+                <img src="https://i.ibb.co/60mf1dHZ/logo.png" alt="AIO Logo" style="height:40px;vertical-align:middle;">
+                <span class="logo-text" style="
+                    font-size: 2rem;
+                    font-weight: 800;
+                    background: linear-gradient(90deg, #00e6b8, #b14ef5);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    letter-spacing: 2px;">AIO Music</span>
+
+            </div>
+        </div>
+    </header>
+
+    <section class="welcome-section">
+        <div class="bg-slideshow">
+        </div>
+        <div class="welcome-content">
+            <h2>AIO Music</h2>
+            <div class="search-container" style="margin-top: 1.5rem; width: 100%;">
+                <div class="search-wrapper" style="position: relative;">
+                    <i class="fas fa-search search-icon" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: rgba(255, 255, 255, 0.7); pointer-events: none;"></i>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search for any artist or song..." style="padding-left: 50px;">
+                </div>
+                <div class="api-toggle-container" style="margin-top: 15px; display: flex; justify-content: center;">
+                    <label class="api-toggle">
+                        <input type="checkbox" id="apiToggle">
+                        <span class="slider"></span>
+                        <span class="api-label deezer-label">Deezer</span>
+                        <span class="api-label youtube-label">YouTube</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="player-container">
+            <div id="youtube-player" style="display: none; width: 100%; margin-bottom: 20px;"></div>
+            <div class="now-playing">
+                <img id="currentCover" src="https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Album Art">
+                <h2 id="currentTitle">Select a song to play</h2>
+                <p id="currentArtist"></p>
+            </div>
+            <div class="visualizer" id="visualizer">
+                <!-- Bars will be added by JavaScript -->
+            </div>
+
+            <!-- Custom Progress Bar - Modern YouTube Style -->
+            <div class="progress-container" id="progressContainer">
+                <div class="music-visualizer" id="musicVisualizer">
+                    <!-- Music visualizer bars will be added by JavaScript -->
+                </div>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-filled" id="progressFilled"></div>
+                    <div class="progress-handle" id="progressHandle"></div>
+                </div>
+                <div class="progress-timestamps">
+                    <span id="currentTime">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
+            </div>
+
+            <audio id="audioPlayer" class="audio-player" controls style="display: none;">
+                <source src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div class="controls">
+                <button id="prevBtn" class="btn">Previous</button>
+                <button id="playPauseBtn" class="btn">Play</button>
+                <button id="nextBtn" class="btn">Next</button>
+            </div>
+        </div>
+
+        <section class="recently-played-section">
+            <h2 class="section-title">Recently Played</h2>
+            <div class="recently-played-grid" id="recentlyPlayed">
+                <!-- Recently played songs will be added here by JavaScript -->
+            </div>
+        </section>
+
+        <div id="songs" class="songs-grid">
+            <!-- Songs will be loaded here -->
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AIO Music</h3>
+                    <p>Your one-stop destination for all your music needs.</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AIO Music. All rights reserved. <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a></p>
+                <p>Developed by <a href="#">Your Name</a> with love.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // YouTube API variables
+        let youtubePlayer;
+        let youtubeReady = false;
+
+        // Load YouTube API
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // YouTube API callback
+        function onYouTubeIframeAPIReady() {
+            youtubePlayer = new YT.Player('youtube-player', {
+                height: '300',
+                width: '100%',
+                playerVars: {
+                    'playsinline': 1,
+                    'controls': 1,
+                    'autoplay': 0
+                },
+                events: {
+                    'onReady': () => {
+                        youtubeReady = true;
+                    },
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                playNext();
+            } else if (event.data === YT.PlayerState.PLAYING) {
+                startVisualizer();
+                playPauseBtn.textContent = 'Pause';
+                // Hide the default player controls and show our custom progress bar
+                audioPlayer.style.display = 'none';
+                progressContainer.style.display = 'block';
+                // Start tracking YouTube progress
+                updateYouTubeProgress();
+            } else if (event.data === YT.PlayerState.PAUSED) {
+                stopVisualizer();
+                playPauseBtn.textContent = 'Play';
+            }
+        }
+
+        const audioPlayer = document.getElementById('audioPlayer');
+        const currentTitle = document.getElementById('currentTitle');
+        const currentArtist = document.getElementById('currentArtist');
+        const currentCover = document.getElementById('currentCover');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const songsGrid = document.getElementById('songs');
+        const searchInput = document.getElementById('searchInput');
+        const visualizer = document.getElementById('visualizer');
+        // Theme toggle element is already declared above
+        const apiToggle = document.getElementById('apiToggle');
+        const youtubePlayerContainer = document.getElementById('youtube-player');
+
+        let currentSongs = [];
+        let currentIndex = 0;
+        let recentlyPlayedSongs = [];
+        let isUsingYouTube = false;
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            setupSlideshow();
+
+            // Create visualizer bars
+            for (let i = 0; i < 20; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                visualizer.appendChild(bar);
+            }
+
+            // Initialize the rest of the application
+            loadSongs();
+
+            // Setup search functionality
+            searchInput.addEventListener('input', (e) => {
+                loadSongs(e.target.value);
+            });
+
+            // Theme toggle is handled elsewhere
+
+            // Setup API toggle
+            apiToggle.addEventListener('change', () => {
+                isUsingYouTube = apiToggle.checked;
+
+                // Toggle YouTube mode class on body for CSS changes
+                document.body.classList.toggle('youtube-mode', isUsingYouTube);
+
+                // Also toggle class on the toggle element itself
+                const apiToggleEl = document.querySelector('.api-toggle');
+                apiToggleEl.classList.toggle('youtube', isUsingYouTube);
+
+                // Switch player visibility
+                audioPlayer.style.display = 'none'; // Always hide the default HTML audio player
+                youtubePlayerContainer.style.display = isUsingYouTube ? 'block' : 'none';
+
+                // Show our custom progress bar
+                progressContainer.style.display = 'block';
+
+                // Update visualizer colors
+                updateVisualizerColors();
+
+                // Reload songs for the selected API
+                loadSongs(searchInput.value);
+
+                // Pause current playback
+                if (isUsingYouTube) {
+                    audioPlayer.pause();
+                } else if (youtubeReady) {
+                    youtubePlayer.pauseVideo();
+                }
+            });
+
+            // Load recently played from local storage
+            loadRecentlyPlayed();
+        });
+
+        // Load songs from API
+        function loadSongs(query = '') {
+            try {
+                const apiEndpoint = isUsingYouTube ? 'youtube_api.php' : 'api.php';
+
+                fetch(`${apiEndpoint}?q=${encodeURIComponent(query)}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.error) {
+                            console.log("API Error:", data.error);
+                            songsGrid.innerHTML = `<div class="no-results">Error loading songs: ${data.error}</div>`;
+                            // Fall back to mock data as a last resort
+                            useMockData();
+                        } else if (isUsingYouTube && data.data && Array.isArray(data.data)) {
+                            // YouTube data
+                            currentSongs = data.data;
+                            displaySongs(data.data);
+                        } else if (!isUsingYouTube && data.data && Array.isArray(data.data)) {
+                            // Deezer data
+                            currentSongs = data.data;
+                            displaySongs(data.data);
+                        } else if (!isUsingYouTube && Array.isArray(data)) {
+                            // Deezer may sometimes return direct array
+                            currentSongs = data;
+                            displaySongs(data);
+                        } else {
+                            songsGrid.innerHTML = '<div class="no-results">No songs found</div>';
+                            useMockData();
+                        }
+                    })
+                    .catch(error => {
+                        console.error("API fetch error:", error);
+                        songsGrid.innerHTML = `<div class="no-results">Error loading songs: ${error.message}</div>`;
+                        // Fall back to mock data as a last resort
+                        useMockData();
+                    });
+
+                function useMockData() {
+                    // Only use mock data if really necessary and there are no songs
+                    if (currentSongs.length === 0) {
+                        console.log("Using mock data as fallback");
+                        const mockSongs = getMockSongs();
+                        currentSongs = mockSongs;
+                        displaySongs(mockSongs);
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                songsGrid.innerHTML = `<div class="no-results">Error loading songs: ${error.message}</div>`;
+            }
+        }
+
+        function getMockSongs() {
+            return [{
+                id: 1,
+                title: "Blinding Lights",
+                preview: "https://cdns-preview-c.dzcdn.net/stream/c-cca63b2c92773d54e61c5b4d17695bd2-8.mp3",
+                artist: {
+                    name: "The Weeknd"
+                },
+                album: {
+                    cover_medium: "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=400"
+                },
+                type: 'deezer'
+            }, {
+                id: 2,
+                title: "Dance Monkey",
+                preview: "https://cdns-preview-b.dzcdn.net/stream/c-b2ce0fbb5bc11cabe1c9e9a3b3e1da6e-6.mp3",
+                artist: {
+                    name: "Tones and I"
+                },
+                album: {
+                    cover_medium: "https://images.pexels.com/photos/1389429/pexels-photo-1389429.jpeg?auto=compress&cs=tinysrgb&w=400"
+                },
+                type: 'deezer'
+            }];
+        }
+
+        function displaySongs(songs) {
+            songsGrid.innerHTML = '';
+
+            if (songs.length === 0) {
+                songsGrid.innerHTML = '<div class="no-results">No songs found</div>';
+                return;
+            }
+
+            songs.forEach((song, index) => {
+                const songCard = document.createElement('div');
+                songCard.className = 'song-card';
+
+                // Ensure we have a proper album cover URL
+                const coverUrl = song.album.cover_medium ||
+                    song.album.cover ||
+                    'https://via.placeholder.com/300x300?text=No+Cover';
+
+                // Add YouTube icon for YouTube videos
+                const sourceIcon = song.type === 'youtube' ?
+                    '<div class="source-icon youtube"><i class="fab fa-youtube"></i></div>' :
+                    '';
+
+                songCard.innerHTML = `
+                    <img src="${coverUrl}" alt="${song.title}">
+                    <div class="song-info">
+                        <div class="song-title">${song.title}</div>
+                        <div class="song-artist">${song.artist.name}</div>
+                    </div>
+                    ${sourceIcon}
+                `;
+
+                songCard.addEventListener('click', () => playSong(index));
+                songsGrid.appendChild(songCard);
+            });
+        }
+
+        function playSong(index) {
+            if (index < 0 || index >= currentSongs.length) return;
+
+            currentIndex = index;
+            const song = currentSongs[currentIndex];
+
+            // Update UI for both types
+            currentTitle.textContent = song.title || 'Unknown Title';
+            currentArtist.textContent = song.artist.name || 'Unknown Artist';
+
+            // Make sure we have a valid cover URL
+            currentCover.src = song.album.cover_medium || 'https://via.placeholder.com/180x180?text=No+Cover';
+            currentCover.onerror = function() {
+                this.src = 'https://via.placeholder.com/180x180?text=No+Cover';
+            };
+
+            // Update playing status
+            document.querySelectorAll('.song-card').forEach((card, i) => {
+                card.classList.toggle('playing', i === currentIndex);
+            });
+
+            // Reset progress bar
+            progressFilled.style.width = '0%';
+            progressHandle.style.left = '0%';
+            currentTimeDisplay.textContent = '0:00';
+            durationDisplay.textContent = '0:00';
+
+            if (song.type === 'youtube') {
+                // Play YouTube video
+                if (youtubeReady) {
+                    audioPlayer.pause(); // Stop audio player if playing
+                    youtubePlayer.loadVideoById(song.id);
+                    youtubePlayerContainer.style.display = 'block';
+                    audioPlayer.style.display = 'none';
+                    // Show our custom progress bar
+                    progressContainer.style.display = 'block';
+                } else {
+                    alert('YouTube player is not ready yet. Please try again in a moment.');
+                }
+            } else {
+                // Play audio from Deezer
+                youtubePlayerContainer.style.display = 'none';
+                audioPlayer.style.display = 'none'; // Keep the default audio player hidden
+                progressContainer.style.display = 'block';
+
+                if (youtubeReady) {
+                    youtubePlayer.stopVideo(); // Stop YouTube player if playing
+                }
+
+                // Set the audio source first
+                audioPlayer.src = song.preview || '';
+
+                // Play the audio
+                audioPlayer.play().catch(error => {
+                    console.error("Error playing song:", error);
+                    alert("Could not play this song. Please try another one.");
+                });
+
+                playPauseBtn.textContent = 'Pause';
+                startVisualizer();
+            }
+
+            // Add to recently played
+            addToRecentlyPlayed(song);
+        }
+
+        function togglePlay() {
+            const currentSong = currentSongs[currentIndex];
+
+            if (currentSong && currentSong.type === 'youtube') {
+                if (youtubeReady) {
+                    const state = youtubePlayer.getPlayerState();
+                    if (state === YT.PlayerState.PLAYING) {
+                        youtubePlayer.pauseVideo();
+                        playPauseBtn.textContent = 'Play';
+                    } else {
+                        youtubePlayer.playVideo();
+                        playPauseBtn.textContent = 'Pause';
+                    }
+                }
+            } else {
+                if (audioPlayer.paused) {
+                    audioPlayer.play();
+                    playPauseBtn.textContent = 'Pause';
+                    startVisualizer();
+                } else {
+                    audioPlayer.pause();
+                    playPauseBtn.textContent = 'Play';
+                    stopVisualizer();
+                }
+            }
+        }
+
+        function playNext() {
+            playSong((currentIndex + 1) % currentSongs.length);
+        }
+
+        function playPrevious() {
+            playSong((currentIndex - 1 + currentSongs.length) % currentSongs.length);
+        }
+
+        // Visualizer
+        let visualizerInterval;
+
+        function startVisualizer() {
+            if (visualizerInterval) clearInterval(visualizerInterval);
+
+            const bars = document.querySelectorAll('.bar');
+
+            visualizerInterval = setInterval(() => {
+                bars.forEach(bar => {
+                    const height = Math.floor(Math.random() * 80) + 20;
+                    bar.style.height = `${height}px`;
+                });
+
+                // Also update music visualizer bar heights and colors
+                const musicBars = musicVisualizer.querySelectorAll('.music-bar');
+                musicBars.forEach(bar => {
+                    const height = Math.floor(Math.random() * 100);
+                    bar.style.height = `${height}%`;
+
+                    // Update color based on mode
+                    if (isUsingYouTube) {
+                        bar.style.background = `linear-gradient(180deg, #ff0000 ${Math.random() * 30 + 40}%, #ff6666)`;
+                    } else {
+                        bar.style.background = `linear-gradient(180deg, #00e6b8 ${Math.random() * 30 + 40}%, #b14ef5)`;
+                    }
+                });
+            }, 100);
+        }
+
+        function stopVisualizer() {
+            if (visualizerInterval) {
+                clearInterval(visualizerInterval);
+                visualizerInterval = null;
+
+                const bars = document.querySelectorAll('.bar');
+                bars.forEach(bar => {
+                    bar.style.height = '20px';
+                });
+            }
+        }
+
+        // Dark Mode Only
+        localStorage.setItem('theme', 'dark');
+
+        // Event listeners
+        audioPlayer.addEventListener('ended', () => {
+            stopVisualizer();
+            playNext();
+        });
+
+        audioPlayer.addEventListener('pause', stopVisualizer);
+        audioPlayer.addEventListener('play', startVisualizer);
+
+        prevBtn.addEventListener('click', playPrevious);
+        nextBtn.addEventListener('click', playNext);
+        playPauseBtn.addEventListener('click', togglePlay);
+
+        function addToRecentlyPlayed(song) {
+            // Remove the song if it's already in the list
+            recentlyPlayedSongs = recentlyPlayedSongs.filter(s => s.id !== song.id);
+
+            // Add the song to the beginning of the list
+            recentlyPlayedSongs.unshift(song);
+
+            // Keep only the last 6 songs
+            if (recentlyPlayedSongs.length > 6) {
+                recentlyPlayedSongs = recentlyPlayedSongs.slice(0, 6);
+            }
+
+            // Save to local storage
+            localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayedSongs));
+
+            // Update the UI
+            displayRecentlyPlayed();
+        }
+
+        function displayRecentlyPlayed() {
+            recentlyPlayed.innerHTML = '';
+
+            recentlyPlayedSongs.forEach(song => {
+                const songCard = document.createElement('div');
+                songCard.className = 'song-card';
+                songCard.innerHTML = `
+                    <img src="${song.album.cover_medium}" alt="${song.title}">
+                    <div class="song-info">
+                        <div class="song-title">${song.title}</div>
+                        <div class="song-artist">${song.artist.name}</div>
+                    </div>
+                `;
+
+                songCard.addEventListener('click', () => {
+                    // Find the song in the current songs list
+                    const index = currentSongs.findIndex(s => s.id === song.id);
+                    if (index !== -1) {
+                        playSong(index);
+                    } else {
+                        // If the song is not in the current list, add it
+                        currentSongs.unshift(song);
+                        playSong(0);
+                    }
+                });
+
+                recentlyPlayed.appendChild(songCard);
+            });
+        }
+
+        // Background slideshow
+        function setupSlideshow() {
+            // Create video sources array
+            const videoSources = [
+                "https://cdn.pixabay.com/video/2021/02/16/65390-514139029_large.mp4",
+                "https://cdn.pixabay.com/video/2015/08/08/139-135737102_large.mp4",
+                "https://cdn.pixabay.com/video/2024/08/09/225546_large.mp4"
+            ];
+
+            const slideShowContainer = document.querySelector('.bg-slideshow');
+
+            // Clear previous content
+            slideShowContainer.innerHTML = '';
+
+            // Create two video elements for crossfade effect
+            const videoElement1 = document.createElement('video');
+            videoElement1.className = 'video-slide active';
+            videoElement1.muted = true;
+            videoElement1.style.objectFit = "cover";
+            videoElement1.style.width = "100%";
+            videoElement1.style.height = "100%";
+            videoElement1.style.position = "absolute";
+            videoElement1.style.top = "0";
+            videoElement1.style.left = "0";
+            videoElement1.style.transition = "opacity 1s ease-in-out";
+
+            const videoElement2 = document.createElement('video');
+            videoElement2.className = 'video-slide';
+            videoElement2.muted = true;
+            videoElement2.style.objectFit = "cover";
+            videoElement2.style.width = "100%";
+            videoElement2.style.height = "100%";
+            videoElement2.style.position = "absolute";
+            videoElement2.style.top = "0";
+            videoElement2.style.left = "0";
+            videoElement2.style.opacity = "0";
+            videoElement2.style.transition = "opacity 1s ease-in-out";
+
+            // Create source elements
+            const sourceElement1 = document.createElement('source');
+            sourceElement1.type = "video/mp4";
+            sourceElement1.src = videoSources[0];
+
+            const sourceElement2 = document.createElement('source');
+            sourceElement2.type = "video/mp4";
+            sourceElement2.src = videoSources[1];
+
+            // Add sources to videos
+            videoElement1.appendChild(sourceElement1);
+            videoElement2.appendChild(sourceElement2);
+
+            // Add videos to container
+            slideShowContainer.appendChild(videoElement1);
+            slideShowContainer.appendChild(videoElement2);
+
+            // Play the first video
+            videoElement1.play();
+
+            let activeVideo = 0;
+            const videos = [videoElement1, videoElement2];
+            const sources = [sourceElement1, sourceElement2];
+
+            // Function to switch videos with crossfade
+            function switchVideo() {
+                // Get current and next video indices
+                const current = activeVideo;
+                const next = (activeVideo + 1) % 2;
+
+                // Calculate which video source to use next
+                const currentSourceIndex = videos[current].dataset.sourceIndex ? parseInt(videos[current].dataset.sourceIndex) : 0;
+                const nextSourceIndex = (currentSourceIndex + 1) % videoSources.length;
+
+                // Store the source index as a data attribute
+                videos[next].dataset.sourceIndex = nextSourceIndex;
+
+                // Prepare next video
+                sources[next].src = videoSources[nextSourceIndex];
+                videos[next].load();
+                videos[next].play();
+
+                console.log("Switching from video " + currentSourceIndex + " to video " + nextSourceIndex);
+
+                // Start crossfade
+                setTimeout(() => {
+                    // Fade in next video
+                    videos[next].style.opacity = "1";
+                    // Fade out current video
+                    videos[current].style.opacity = "0";
+
+                    // Update active video
+                    activeVideo = next;
+                }, 100); // Small delay to ensure video has started playing
+            }
+
+            // Set interval to change videos every 3 seconds
+            setInterval(switchVideo, 3000);
+        }
+
+        function loadRecentlyPlayed() {
+            const stored = localStorage.getItem('recentlyPlayed');
+            if (stored) {
+                recentlyPlayedSongs = JSON.parse(stored);
+                displayRecentlyPlayed();
+            }
+        }
+
+        // JavaScript for custom progress bar
+        const progressBar = document.getElementById('progressBar');
+        const progressFilled = document.getElementById('progressFilled');
+        const progressHandle = document.getElementById('progressHandle');
+        const currentTimeDisplay = document.getElementById('currentTime');
+        const durationDisplay = document.getElementById('duration');
+        const progressContainer = document.getElementById('progressContainer');
+        const musicVisualizer = document.getElementById('musicVisualizer');
+
+        // Create music visualizer bars
+        for (let i = 0; i < 20; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'music-bar';
+            bar.style.height = `${Math.floor(Math.random() * 100)}%`;
+            musicVisualizer.appendChild(bar);
+        }
+
+        // Format time in minutes:seconds
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+            return `${mins}:${secs}`;
+        }
+
+        // Update progress bar (works for both audio and YouTube)
+        function updateProgressBar(currentTime, duration) {
+            const percent = (currentTime / duration) * 100;
+            progressFilled.style.width = `${percent}%`;
+            progressHandle.style.left = `${percent}%`;
+            currentTimeDisplay.textContent = formatTime(currentTime);
+            durationDisplay.textContent = formatTime(duration);
+
+            // Update visualizer bars
+            const bars = musicVisualizer.querySelectorAll('.music-bar');
+            bars.forEach(bar => {
+                // Random height based on playback position to simulate music visualization
+                bar.style.height = `${Math.floor(Math.random() * 100)}%`;
+            });
+        }
+
+        // Progress bar seek functionality
+        let isDragging = false;
+
+        progressBar.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            progressHandle.classList.add('dragging');
+            updateSeek(e);
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (isDragging) {
+                updateSeek(e);
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            if (isDragging) {
+                isDragging = false;
+                progressHandle.classList.remove('dragging');
+            }
+        });
+
+        function updateSeek(e) {
+            const progressRect = progressBar.getBoundingClientRect();
+            const seekPosition = Math.min(Math.max(0, e.clientX - progressRect.left), progressRect.width);
+            const seekPercent = seekPosition / progressRect.width;
+
+            // Update the visual elements
+            progressFilled.style.width = `${seekPercent * 100}%`;
+            progressHandle.style.left = `${seekPercent * 100}%`;
+
+            // Update the time display without actually seeking yet
+            if (isUsingYouTube && youtubeReady) {
+                const duration = youtubePlayer.getDuration();
+                currentTimeDisplay.textContent = formatTime(seekPercent * duration);
+            } else {
+                currentTimeDisplay.textContent = formatTime(seekPercent * audioPlayer.duration);
+            }
+
+            // Only seek when mouse is released
+            if (!isDragging) {
+                if (isUsingYouTube && youtubeReady) {
+                    const duration = youtubePlayer.getDuration();
+                    youtubePlayer.seekTo(seekPercent * duration, true);
+                } else if (!isNaN(audioPlayer.duration)) {
+                    audioPlayer.currentTime = seekPercent * audioPlayer.duration;
+                }
+            }
+        }
+
+        progressBar.addEventListener('click', updateSeek);
+
+        // Audio player event listeners for progress updates
+        audioPlayer.addEventListener('timeupdate', function() {
+            if (!isDragging && !isNaN(audioPlayer.duration)) {
+                updateProgressBar(audioPlayer.currentTime, audioPlayer.duration);
+            }
+        });
+
+        audioPlayer.addEventListener('loadedmetadata', function() {
+            durationDisplay.textContent = formatTime(audioPlayer.duration);
+        });
+
+        // Set up progress updates for YouTube
+        function updateYouTubeProgress() {
+            if (isUsingYouTube && youtubeReady && youtubePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+                const currentTime = youtubePlayer.getCurrentTime();
+                const duration = youtubePlayer.getDuration();
+
+                if (!isDragging && !isNaN(duration)) {
+                    updateProgressBar(currentTime, duration);
+                }
+            }
+
+            // Update approximately 60 times per second
+            requestAnimationFrame(updateYouTubeProgress);
+        }
+
+        // Function to update visualizer colors based on current mode
+        function updateVisualizerColors() {
+            const bars = musicVisualizer.querySelectorAll('.music-bar');
+
+            if (isUsingYouTube) {
+                bars.forEach(bar => {
+                    bar.style.background = `linear-gradient(180deg, #ff0000 ${Math.random() * 30 + 40}%, #ff6666)`;
+                });
+            } else {
+                bars.forEach(bar => {
+                    bar.style.background = `linear-gradient(180deg, #00e6b8 ${Math.random() * 30 + 40}%, #b14ef5)`;
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

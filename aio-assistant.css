@@ -1,0 +1,224 @@
+/* AIO Hub Clickable Assistant Styles */
+:root {
+    --primary-color: #6520d7;
+    --primary-gradient: linear-gradient(135deg, #6520d7 0%, #9345f3 100%);
+    --text-color: #333;
+    --light-text: #fff;
+    --border-radius: 12px;
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+/* Assistant Wrapper */
+#aio-assistant-wrapper {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Toggle Button */
+.assistant-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    z-index: 9999;
+}
+
+.assistant-toggle i {
+    color: white;
+    font-size: 28px;
+}
+
+.assistant-toggle:hover {
+    transform: scale(1.05);
+}
+
+.assistant-toggle.hidden {
+    display: none;
+}
+
+/* Assistant Container */
+.aio-assistant {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 350px;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: var(--transition);
+    opacity: 1;
+    transform: translateY(0);
+    z-index: 9998;
+}
+
+.aio-assistant.collapsed {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+/* Assistant Header */
+.assistant-header {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.assistant-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    transition: var(--transition);
+}
+
+.close-button:hover {
+    transform: scale(1.1);
+}
+
+/* Assistant Content */
+.assistant-content {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.assistant-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+/* Options */
+.assistant-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.assistant-option {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-color);
+}
+
+.assistant-option:hover {
+    background: #f8f2ff;
+    border-color: var(--primary-color);
+}
+
+.back-option {
+    background: #f5f5f5;
+    border: 1px dashed #ccc;
+    margin-top: 5px;
+}
+
+.back-option:hover {
+    background: #eee;
+    border-color: #999;
+}
+
+/* Answer Area */
+.assistant-answer {
+    background: #f8f2ff;
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-color);
+    margin-top: 15px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.assistant-answer {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Responsive Styles */
+@media (max-width: 480px) {
+    .aio-assistant {
+        width: calc(100% - 60px);
+        right: 15px;
+        left: 15px;
+    }
+    
+    .assistant-toggle {
+        right: 15px;
+    }
+}
+
+/* Dark Theme Support */
+@media (prefers-color-scheme: dark) {
+    .aio-assistant {
+        background: #222;
+        border: 1px solid #444;
+    }
+    
+    .assistant-title,
+    .assistant-content {
+        color: #f0f0f0;
+    }
+    
+    .assistant-option {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #f0f0f0;
+    }
+    
+    .assistant-option:hover {
+        background: #333;
+        border-color: var(--primary-color);
+    }
+    
+    .back-option {
+        background: #2a2a2a;
+        border-color: #555;
+    }
+    
+    .back-option:hover {
+        background: #333;
+        border-color: #777;
+    }
+    
+    .assistant-answer {
+        background: #2d2438;
+        color: #f0f0f0;
+    }
+}

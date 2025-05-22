@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIO Hub - Your Ultimate Entertainment Center</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            /* Light theme variables */
+            --primary-color: #6530c4; /* More professional purple */
+            --primary-light: #8855dd;
+            --primary-dark: #4a1c9c;
+            --secondary-color: #5348ff;
+            --accent-color: #ff3a5e;
+            
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f3f4f6;
+            
+            --text-primary: #222832;
+            --text-secondary: #4a5568;
+            --text-tertiary: #718096;
+            
+            --card-bg: #ffffff;
+            --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            
+            --border-color: #e2e8f0;
+            
+            --gradient-primary: linear-gradient(45deg, #6530c4, #5348ff);
+            --gradient-secondary: linear-gradient(135deg, #8855dd, #ff3a5e);
+            
+            --transition-default: all 0.3s ease;
+            --section-padding: 5rem 0;
+            --container-padding: 0 2rem;
+        }
+        
+        /* Dark theme variables */
+        html[data-theme='dark'] {
+            --primary-color: #a35ef5; /* Lighter purple for dark mode */
+            --primary-light: #b57ff7;
+            --primary-dark: #8a2be2;
+            --secondary-color: #6c63ff;
+            --accent-color: #ff6b6b;
+            
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-tertiary: #2a2a2a;
+            
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-tertiary: #b0b0b0;
+            
+            --card-bg: #1e1e1e;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            
+            --border-color: #333333;
+            
+            --gradient-primary: linear-gradient(45deg, #a35ef5, #6c63ff);
+            --gradient-secondary: linear-gradient(135deg, #b57ff7, #ff6b6b);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition-default);
+        }
+        
+        a:hover {
+            color: var(--primary-light);
+        }
+        
+        /* Header Styles */
+        header {
+            background: var(--bg-secondary);
+            padding: 1.25rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        header.scrolled {
+            padding: 0.75rem 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            background: rgba(var(--bg-secondary-rgb, 255, 255, 255), 0.95);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-bar ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+        
+        .nav-bar a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition-default);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .nav-bar a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-bar a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-bar a:hover::after {
+            width: 100%;
+        }
+        
+        /* Theme toggle button */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition-default);
+            border: none;
+            outline: none;
+            margin-left: 1rem;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--primary-light);
+            color: white;
+        }
+        
+        .nav-bar a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-bar a:hover {
+            color: var(--primary-color);
+        }
+        
+        .login-btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gradient-primary);
+            color: white !important;
+            padding: 0.5rem 1.25rem !important;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.2);
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        }
+        
+        .login-btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .login-btn-nav:hover::after {
+            width: 0 !important;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            min-height: 80vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            overflow: hidden;
+            color: white;
+        }
+        
+        .hero-video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .hero-video-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1;
+        }
+        
+        .hero-video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.7;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border-radius: 1rem;
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero-section h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            animation: fadeInUp 1s ease-out;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            color: #ffffff;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.2s;
+            animation-fill-mode: both;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+        
+        /* Video Showcase */
+        .video-presentations-section {
+            padding: 5rem 2rem;
+            background-color: var(--bg-tertiary);
+            text-align: center;
+        }
+        
+        .video-presentations-section .section-title {
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .video-presentations-section .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        
+        .video-showcase {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 1400px;
+            z-index: 1;
+        }
+        
+        .video-container {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.4s;
+            animation-fill-mode: both;
+            margin-bottom: 2rem;
+        }
+        
+        .video-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .video-container video {
+            width: 100%;
+            height: 225px;
+            display: block;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+        
+        .youtube-container {
+            max-width: 500px;
+        }
+        
+        .youtube-container iframe {
+            border-radius: 12px;
+            height: 225px;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+            box-sizing: border-box;
+            height: 50%;
+            pointer-events: none;
+        }
+        
+        .video-title {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Platforms Section */
+        .platforms-section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--container-padding);
+        }
+        
+        section {
+            padding: var(--section-padding);
+            position: relative;
+        }
+        
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .platform-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.3s ease;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+        
+        .platform-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+            opacity: 0.1;
+            z-index: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .platform-card:hover::before {
+            opacity: 0.2;
+        }
+        
+        .music-card::before {
+            background-image: url('https://i.pinimg.com/originals/a0/d0/9d/a0d09d9ddb0cbcf10f4decde370e5b2c.gif');
+            background-size: cover;
+        }
+        
+        .films-card::before {
+            background-image: url('https://i.pinimg.com/originals/ab/be/28/abbe28a943a13369c6a22975be325a4a.gif');
+            background-size: cover;
+        }
+        
+        .games-card::before {
+            background-image: url('https://i.pinimg.com/originals/71/9e/80/719e80760999b1c0f032d48f05a0d72c.gif');
+            background-size: cover;
+        }
+        
+        .platform-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px rgba(101, 48, 196, 0.15);
+        }
+        
+        .platform-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .platform-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-default);
+        }
+        
+        .platform-image i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: var(--primary-color);
+        }
+        
+        .platform-card:hover .platform-image img {
+            transform: scale(1.05);
+        }
+        
+        .platform-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .platform-title {
+            font-size: 1.6rem;
+            margin: 1.5rem 0 1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: -0.01em;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+        
+        .platform-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+        }
+        
+        .platform-description {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            padding: 0 1.2rem;
+        }
+        
+        .platform-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.85rem 2.5rem;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            box-shadow: 0 10px 25px rgba(101, 48, 196, 0.25);
+            letter-spacing: 0.02em;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .platform-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .platform-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(101, 48, 196, 0.4);
+        }
+        
+        .platform-link:hover::before {
+            transform: translateX(100%);
+        }
+        
+        /* Features Section */
+        .features-section {
+            background: rgba(15, 15, 30, 0.8);
+            padding: 5rem 2rem;
+        }
+        
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: var(--transition-default);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 20, 0.95);
+            padding: 3rem 2rem;
+            border-top: 2px solid var(--primary-color);
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: var(--transition-default);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            color: var(--light-text);
+            transition: var(--transition-default);
+        }
+        
+        .social-links a:hover {
+            background: var(--gradient-primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .platform-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .nav-bar ul {
+                margin-top: 1rem;
+                gap: 1rem;
+            }
+            
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-section p {
+                font-size: 1.2rem;
+            }
+            
+            .platforms-grid,
+            .features-grid,
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            width: 350px;
+            max-height: 500px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+        
+        .chatbot-container.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .chatbot-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .chatbot-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .chatbot-icon {
+            font-size: 1.5rem;
+        }
+        
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .chatbot-messages {
+            padding: 15px;
+            overflow-y: auto;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin-bottom: 5px;
+            word-wrap: break-word;
+        }
+        
+        .bot-message {
+            background: rgba(0, 230, 184, 0.1);
+            border-left: 3px solid var(--primary-color);
+            align-self: flex-start;
+        }
+        
+        .thinking {
+            position: relative;
+            min-width: 60px;
+        }
+        
+        .thinking::after {
+            content: '...';
+            animation: thinking 1.5s infinite;
+            position: absolute;
+            right: 10px;
+        }
+        
+        @keyframes thinking {
+            0% { content: '.'; }
+            33% { content: '..'; }
+            66% { content: '...'; }
+            100% { content: '.'; }
+        }
+        
+        .user-message {
+            background: rgba(79, 172, 254, 0.1);
+            border-right: 3px solid var(--secondary-color);
+            align-self: flex-end;
+        }
+        
+        .chatbot-input {
+            display: flex;
+            padding: 10px 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-text);
+            outline: none;
+        }
+        
+        .chatbot-input button {
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-input button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .platform-title {
+                font-size: 1.5rem;
+            }
+            
+            .chatbot-container {
+                width: 300px;
+                max-height: 450px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="https://i.ibb.co/60mf1dHZ/logo.png" alt="AIO Logo" style="height:40px;vertical-align:middle;">
+                <div class="logo-text">AIO Hub</div>
+            </div>
+            <nav class="nav-bar">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#platforms">Platforms</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#presentations">Presentations</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="login.html" class="login-btn-nav" id="login-nav"><i class="fas fa-user"></i> Login</a></li>
+                    <li><a href="profile.html" class="profile-btn-nav" id="profile-nav" style="display: none;"><i class="fas fa-user-circle"></i> Profile</a></li>
+                    <li><a href="#" class="logout-btn-nav" id="logout-nav" style="display: none;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="hero-video-background">
+            <video width="100%" height="auto" autoplay muted loop id="hero-video" controls playsinline preload="metadata">
+                <source src="Generated video 1 (1).mp4" type="video/mp4" id="video-source">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="hero-content">
+            <h1>Your Ultimate Entertainment Hub</h1>
+            <p>Experience the future of entertainment with AIO Hub - where music, films, and games come together in one seamless platform. Discover a world of endless possibilities.</p>
+            <a href="#platforms" class="platform-link">Explore Platforms</a>
+        </div>
+    </section>
+
+    <!-- Platforms Section -->
+    <section class="platforms-section" id="platforms">
+        <h2 class="section-title">Our Platforms</h2>
+        <div class="platforms-grid">
+            <!-- Music Platform -->
+            <div class="platform-card music-card">
+                <div class="platform-image">
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="AIO Music" class="platform-img">
+                    <i class="fas fa-music"></i>
+                </div>
+                <h3 class="platform-title">AIO Music</h3>
+                <p class="platform-description">Stream your favorite music, create playlists, and discover new artists.</p>
+                <a href="All in one play music/music/music/index.html" class="platform-link">Launch Music</a>
+            </div>
+            
+            <!-- Films Platform -->
+            <div class="platform-card films-card">
+                <div class="platform-image">
+                    <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="AIO Films" class="platform-img">
+                    <i class="fas fa-film"></i>
+                </div>
+                <h3 class="platform-title">AIO Films</h3>
+                <p class="platform-description">Watch the latest movies and TV shows from our curated collection.</p>
+                <a href="project/index.php" class="platform-link">Watch Now</a>
+            </div>
+            
+            <!-- Games Platform -->
+            <div class="platform-card games-card">
+                <div class="platform-image">
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="AIO Games" class="platform-img">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h3 class="platform-title">AIO Games</h3>
+                <p class="platform-description">Play your favorite games and connect with other gamers.</p>
+                <a href="AioGames/0GamingHub/GAMINGHUB2.HTML" class="platform-link">Start Gaming</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="features-container">
+            <h2 class="section-title">Why Choose AIO Hub?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="feature-title">All-in-One Access</h3>
+                    <p>Access all your entertainment needs from a single platform.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Fast & Responsive</h3>
+                    <p>Enjoy a seamless experience with our lightning-fast platforms.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Mobile Friendly</h3>
+                    <p>Access your entertainment on any device, anywhere, anytime.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3 class="feature-title">Secure Platform</h3>
+                    <p>Your data and privacy are protected with our secure systems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Presentations Section -->
+    <section class="video-presentations-section" id="presentations">
+        <h2 class="section-title">AIO Hub Presentations</h2>
+        <div class="video-showcase">
+            <div class="video-container">
+                <video width="100%" height="auto" autoplay muted loop controls playsinline preload="metadata">
+                    <source src="Generated video 1 (1).mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay">
+                    <h3 class="video-title">AIO Hub Experience</h3>
+                </div>
+            </div>
+            
+            <div class="video-container">
+                <video width="100%" height="auto" autoplay muted loop controls playsinline preload="metadata">
+                    <source src="Generated File May 13, 2025 - 5_07AM.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay">
+                    <h3 class="video-title">AIO Hub Features</h3>
+                </div>
+            </div>
+            
+            <div class="youtube-container video-container">
+                <iframe width="100%" height="315" src="https://www.youtube.com/embed/IE2BGhv-HqM" title="AIO Hub Presentation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="video-overlay">
+                    <h3 class="video-title">Website Presentation</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!-- AIO Assistant Toggle Button -->
+    <div class="assistant-toggle" style="right: 30px; left: auto;">
+        <i class="fas fa-question-circle"></i>
+    </div>
+    
+    <!-- AIO Assistant Container -->
+    <div class="aio-assistant collapsed">
+        <div class="assistant-header">
+            <h3>AIO Hub Assistant</h3>
+            <button class="close-button">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="assistant-content">
+            <div class="assistant-title">How can I help you?</div>
+            <div class="assistant-options" id="assistant-options">
+                <!-- Options will be loaded here -->
+            </div>
+            
+            <div class="assistant-answer" id="assistant-answer">
+                <!-- Answers will be displayed here -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="footer-logo">AIO Hub</div>
+                <p>Your one-stop destination for all entertainment needs. Music, films, and games - all in one place.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" id="login-btn" style="display: none;">Login</a>
+                    <a href="#" id="signup-btn" style="display: none;">Sign Up</a>
+                    <a href="profile.html" id="profile-btn" style="display: none;">Profile</a>
+                    <a href="#" id="logout-btn" style="display: none;">Logout</a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#platforms">Platforms</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Platforms</h3>
+                <ul>
+                    <li><a href="All in one play music/music/music/index.html">AIO Music</a></li>
+                    <li><a href="project/index.php">AIO Films</a></li>
+                    <li><a href="0GamingHub/0GamingHub/GAMINGHUB2.HTML">AIO Games</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 AIO Hub. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Include AIO Assistant Script -->
+    <!-- AIO Assistant Integration -->    
+    <script src="aio-assistant.js"></script>
+    <link rel="stylesheet" href="aio-assistant.css">
+    
+    <script>
+        // Header scroll effect
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Check if user is logged in, redirect to login if not
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+        });
+
+        // Check login status and update navigation
+        function updateNavigation() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const loginNav = document.getElementById('login-nav');
+            const profileNav = document.getElementById('profile-nav');
+            const logoutNav = document.getElementById('logout-nav');
+
+            if (currentUser) {
+                loginNav.style.display = 'none';
+                profileNav.style.display = 'block';
+                logoutNav.style.display = 'block';
+            } else {
+                loginNav.style.display = 'block';
+                profileNav.style.display = 'none';
+                logoutNav.style.display = 'none';
+            }
+        }
+
+        // Handle logout
+        document.getElementById('logout-nav').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html?logout=true';
+        });
+
+        // Update navigation on page load
+        document.addEventListener('DOMContentLoaded', updateNavigation);
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // Check for saved theme preference or use default
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        htmlElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+        
+        // Toggle theme when button is clicked
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+        
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+        
+        // Video background alternating functionality
+        const heroVideo = document.getElementById('hero-video');
+        const videoSource = document.getElementById('video-source');
+        const videos = [
+            'Generated video 1 (1).mp4',
+            'Generated File May 13, 2025 - 5_07AM.mp4'
+        ];
+        let currentVideoIndex = 0;
+        
+        // Change video when current one ends
+        heroVideo.addEventListener('ended', function() {
+            currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+            videoSource.src = videos[currentVideoIndex];
+            heroVideo.load();
+            heroVideo.play();
+        });
+        
+        // Also change video periodically (every 30 seconds)
+        setInterval(function() {
+            currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+            videoSource.src = videos[currentVideoIndex];
+            heroVideo.load();
+            heroVideo.play();
+        }, 30000);
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add animation on scroll
+        window.addEventListener('DOMContentLoaded', function() {
+            // Add initial animation to hero content
+            document.querySelector('.hero-content').classList.add('fade-in');
+            
+            // Function to check if element is in viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
+                    rect.bottom >= 0
+                );
+            }
+            
+            // Function to handle scroll animations
+            function handleScrollAnimations() {
+                // Animate platform cards
+                document.querySelectorAll('.platform-card').forEach(card => {
+                    if (isInViewport(card)) {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }
+                });
+                
+                // Animate feature cards
+                document.querySelectorAll('.feature-card').forEach(card => {
+                    if (isInViewport(card)) {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            // Run once on load
+            handleScrollAnimations();
+            
+            // Add scroll event listener
+            window.addEventListener('scroll', handleScrollAnimations);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor directories and files
+.idea
+.vscode
+*.sublime-project
+*.sublime-workspace
+
+# Dependency directories
+node_modules/
+vendor/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Video files
+*.mp4
+"VID LOG.mp4"
+"Generated File May 13, 2025 - 5_07AM.mp4"
+"Generated video 1 (1).mp4"
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+php_errors.log
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Build directories
+/dist
+/build
+/out
+
+# Cache
+.cache/
+.sass-cache/
